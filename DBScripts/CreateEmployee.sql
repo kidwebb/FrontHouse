@@ -12,6 +12,8 @@ GO
 
 CREATE TABLE dbo.Employee(
 	EmployeeID int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	UserName nvarchar(50) NULL,
+	Password nvarchar(50) NULL,
 	FirstName nvarchar(50) NULL,
 	LastName nvarchar(50) NULL,
 	Email nvarchar(100) NULL,
