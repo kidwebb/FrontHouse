@@ -16,7 +16,6 @@ public partial class WISAAPI_CreateEmployee : System.Web.UI.Page
 	{
 		public int StoreID, JobType;
 		public string UserName, Password, FirstName, LastName, Email, Phone;
-		public string error;
 	}
 
 	public struct CreateEmployeeResponse

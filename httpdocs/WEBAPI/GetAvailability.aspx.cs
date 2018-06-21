@@ -54,7 +54,7 @@ public partial class WISAAPI_GetAvailability : System.Web.UI.Page
 		{
 			connection.Open();
 
-			string sql = "SELECT AvailID, EmployeeID, DayOfWeek, StartTime, EndTime FROM AvailabilityTbl WHERE EmployeeID = @EmployeeID ORDER BY DayOfWeek";
+			string sql = "SELECT AvailID, EmployeeID, DayOfWeek, StartTime, EndTime FROM AvailabilityTbl WHERE EmployeeID = @EmployeeID AND Status = 1 ORDER BY DayOfWeek";
 			SqlCommand command = new SqlCommand(sql, connection);
 			command.Parameters.Add("@EmployeeID", SqlDbType.Int);
 			command.Parameters["@EmployeeID"].Value = req.EmployeeID;
