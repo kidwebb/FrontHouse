@@ -11,7 +11,6 @@ using System.IO;
 
 public partial class WISAAPI_UpdateEmployee : System.Web.UI.Page
 {
-
 	public struct UpdateEmployeeRequest
 	{
 		public int EmployeeID, StoreID, JobType, Status;
@@ -20,8 +19,6 @@ public partial class WISAAPI_UpdateEmployee : System.Web.UI.Page
 
 	public struct UpdateEmployeeResponse
 	{
-		//public int EmployeeID, StoreID, JobType, Status;
-		//public string FirstName, LastName, Email, Phone;
 		public string error;
 	}
 

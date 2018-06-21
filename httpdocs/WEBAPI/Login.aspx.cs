@@ -11,7 +11,6 @@ using System.IO;
 
 public partial class WISAAPI_Login : System.Web.UI.Page
 {
-
 	public struct LoginRequest
 	{
 		public string login, password;

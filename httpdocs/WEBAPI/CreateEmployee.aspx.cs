@@ -11,7 +11,6 @@ using System.IO;
 
 public partial class WISAAPI_CreateEmployee : System.Web.UI.Page
 {
-
 	public struct CreateEmployeeRequest
 	{
 		public int StoreID, JobType;

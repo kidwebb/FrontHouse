@@ -11,7 +11,6 @@ using System.IO;
 
 public partial class WISAAPI_SetAvailability : System.Web.UI.Page
 {
-
 	public struct SetAvailabilityRequest
 	{
                 public int EmployeeID;
