@@ -13,7 +13,7 @@ public partial class WISAAPI_UpdateEmployee : System.Web.UI.Page
 {
 	public struct UpdateEmployeeRequest
 	{
-		public int EmployeeID, StoreID, JobType, Status;
+		public int EmployeeID, JobType, Status;
 		public string FirstName, LastName, Email, Phone, Password;
 	}
 
