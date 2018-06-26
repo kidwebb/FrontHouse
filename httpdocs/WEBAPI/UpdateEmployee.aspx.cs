@@ -81,26 +81,24 @@ public partial class WISAAPI_UpdateEmployee : System.Web.UI.Page
 			reader.Close();
 
 			string sql = "UPDATE Employee SET Password = @Password, FirstName = @FirstName, LastName = @LastName, Email = @Email, Phone = @Phone, JobType = @JobType, Status = @Status WHERE EmployeeID = @EmployeeID";
-			SqlCommand createEmp = new SqlCommand(sql, connection);
-			createEmp.Parameters.Add("@EmployeeID", SqlDbType.Int);
-			createEmp.Parameters.Add("@Password", SqlDbType.NVarChar);
-			createEmp.Parameters.Add("@FirstName", SqlDbType.NVarChar);
-			createEmp.Parameters.Add("@LastName", SqlDbType.NVarChar);
-			createEmp.Parameters.Add("@Email", SqlDbType.NVarChar);
-			createEmp.Parameters.Add("@Phone", SqlDbType.NVarChar);
-			createEmp.Parameters.Add("@StoreID", SqlDbType.Int);
-			createEmp.Parameters.Add("@JobType", SqlDbType.Int);
-			createEmp.Parameters.Add("@Status", SqlDbType.Int);
-			createEmp.Parameters["@EmployeeID"].Value = req.EmployeeID;
-			createEmp.Parameters["@Password"].Value = req.Password;
-			createEmp.Parameters["@FirstName"].Value = req.FirstName;
-			createEmp.Parameters["@LastName"].Value = req.LastName;
-			createEmp.Parameters["@Email"].Value = req.Email;
-			createEmp.Parameters["@Phone"].Value = req.Phone;
-			createEmp.Parameters["@StoreID"].Value = req.StoreID;
-			createEmp.Parameters["@JobType"].Value = req.JobType;
-			createEmp.Parameters["@Status"].Value = req.Status;
-			createEmp.ExecuteNonQuery();
+			SqlCommand updateEmp = new SqlCommand(sql, connection);
+			updateEmp.Parameters.Add("@EmployeeID", SqlDbType.Int);
+			updateEmp.Parameters.Add("@Password", SqlDbType.NVarChar);
+			updateEmp.Parameters.Add("@FirstName", SqlDbType.NVarChar);
+			updateEmp.Parameters.Add("@LastName", SqlDbType.NVarChar);
+			updateEmp.Parameters.Add("@Email", SqlDbType.NVarChar);
+			updateEmp.Parameters.Add("@Phone", SqlDbType.NVarChar);
+			updateEmp.Parameters.Add("@JobType", SqlDbType.Int);
+			updateEmp.Parameters.Add("@Status", SqlDbType.Int);
+			updateEmp.Parameters["@EmployeeID"].Value = req.EmployeeID;
+			updateEmp.Parameters["@Password"].Value = req.Password;
+			updateEmp.Parameters["@FirstName"].Value = req.FirstName;
+			updateEmp.Parameters["@LastName"].Value = req.LastName;
+			updateEmp.Parameters["@Email"].Value = req.Email;
+			updateEmp.Parameters["@Phone"].Value = req.Phone;
+			updateEmp.Parameters["@JobType"].Value = req.JobType;
+			updateEmp.Parameters["@Status"].Value = req.Status;
+			updateEmp.ExecuteNonQuery();
 		}
 		catch(Exception ex)
 		{
