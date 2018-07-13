@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.app.AlertDialog;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -23,58 +25,6 @@ public class MainActivity extends AppCompatActivity {
     EditText password;
     Button button;
 
-      public void clickMe(View view ){
-          userName.getText().toString();
-
-
-
-              String url = "http://knightfinder.com/WEBAPI/Login.aspx";
-
-              APICall apiCall = new APICall();
-              JSONObject result = null;
-
-              try {
-                  result = apiCall.execute(url, "{login:\""+userName+"\",password:\""+password+"\"}").get();
-                  Log.d("CHECK", "Result = " + result);
-              }catch (Exception e){
-                  Log.d("Debug: API_Call", e.getMessage());
-                  return;
-              }
-
-              int userId = -1;
-
-
-              try
-              {
-                  userId = result.getInt("EmployeeID");
-              }
-              catch (Exception e){
-                  Log.d("Debug: Get Emp ID", e.getMessage());
-                  return;
-              }
-
-              if(userId > 0) {
-                  Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                  startActivity(intent);
-              }
-              else{
-                  AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-                  builder.setMessage("Incorrect user/password. Please try again.");
-                  AlertDialog dialog = builder.create();
-                  dialog.show();
-              }
-
-
-
-
-
-
-
-
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +32,54 @@ public class MainActivity extends AppCompatActivity {
         userName=(EditText)findViewById(R.id.userName);
         password=(EditText)findViewById(R.id.password);
         button=(Button)findViewById(R.id.button);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("Official");
+
     }
 
+    public void clickMe(View view ){
+         userName.getText().toString();
 
+
+         String url = "http://knightfinder.com/WEBAPI/Login.aspx";
+
+         APICall apiCall = new APICall();
+         JSONObject result = null;
+
+         try {
+              result = apiCall.execute(url, "{login:\""+userName+"\",password:\""+password+"\"}").get();
+              Log.d("CHECK", "Result = " + result);
+         }catch (Exception e){
+              Log.d("Debug: API_Call", e.getMessage());
+              return;
+         }
+
+         int userId = -1;
+
+
+         try
+         {
+              userId = result.getInt("EmployeeID");
+         }
+         catch (Exception e){
+              Log.d("Debug: Get Emp ID", e.getMessage());
+              return;
+         }
+
+         if(userId > 0) {
+              Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+              startActivity(intent);
+         }
+         else{
+              AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+              builder.setMessage("Incorrect user/password. Please try again.");
+              AlertDialog dialog = builder.create();
+              dialog.show();
+         }
+    }
 }
+
 class APICall extends AsyncTask<String, String, JSONObject> {
 
     public APICall(){
