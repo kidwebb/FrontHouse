@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickMe(View view ){
-         userName.getText().toString();
-
 
          String url = "http://knightfinder.com/WEBAPI/Login.aspx";
 
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
          JSONObject result = null;
 
          try {
-              result = apiCall.execute(url, "{login:\""+userName+"\",password:\""+password+"\"}").get();
+              result = apiCall.execute(url, "{login:\""+userName.getText().toString()+"\",password:\""+password.getText().toString()+"\"}").get();
               Log.d("CHECK", "Result = " + result);
          }catch (Exception e){
               Log.d("Debug: API_Call", e.getMessage());
@@ -76,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
          }
 
          int userId = -1;
-
 
          try
          {
@@ -103,8 +100,10 @@ public class MainActivity extends AppCompatActivity {
     public void sending(View view){
 
         Send send = new Send();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        String payload = "{\"to\":\"/topics/Official\",\"notification\": {\"title\": \"This is the title\",\"text\": \"Did you make it?!\",\"click_action\": \"MainActivity\"}}";
 
-        send.execute("https://fcm.googleapis.com/fcm/send", "{\"to\":\"/topics/Testing\",\"notification\": {\"title\": \"This is the title\",\"text\": \"Did you make it?!\",\"click_action\": \"MainActivity\"}}", token );
+        send.execute(url, payload , token );
 
 
 
@@ -143,7 +142,6 @@ class APICall extends AsyncTask<String, String, JSONObject> {
 
             //---------------- JSON Post Sequence -------------------------------------------
             OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
-            Log.i("traffic", "here");
             wr.write(data);
             wr.flush();
             //-------------------------------------------------------------------------------
@@ -151,6 +149,8 @@ class APICall extends AsyncTask<String, String, JSONObject> {
             JSONObject json = new JSONObject();
             StringBuilder sb = new StringBuilder();
             int HttpResult = urlConnection.getResponseCode();   // Self explanatory
+
+            //wr.close();
             if(HttpResult == HttpURLConnection.HTTP_OK)
             {
                 BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
@@ -160,6 +160,7 @@ class APICall extends AsyncTask<String, String, JSONObject> {
                     sb.append(line + "\n");
             }
 
+            Log.i("traffic", "here");
             // Returning what is wanted from executing of the AsyncTask
             return new JSONObject(sb.toString());
         }catch (Exception e){
@@ -177,6 +178,7 @@ class APICall extends AsyncTask<String, String, JSONObject> {
 
 class Send extends AsyncTask<String, String, Boolean>{
 
+    private String key = "key=AAAAjmnq9XU:APA91bF4uWqQchNv6IkWiGyn93uwUzXjh3PaKNoYxEkAO5o9GG5I2v2f9CB7aPl7g4v2NtX5uJ4Hm397pPT5rvWIXDalow7tvEJa_lpusuXwXAIaIRToxFfJuQ6_6gCwZijxuVaHAkSgwmRFe1XX8JokYNM2sILuHQ";
     public Send(){
 
     }
@@ -192,7 +194,6 @@ class Send extends AsyncTask<String, String, Boolean>{
 
         String urlString = params[0];   // URL being called
         String data = params[1];    // Data to post
-        String key = params[2];
 
         Log.d("INPUT CHECK", "URL:" + urlString + ", post: " + data + "key: " + key );
 
@@ -215,6 +216,8 @@ class Send extends AsyncTask<String, String, Boolean>{
             //-------------------------------------------------------------------------------
 
             int HttpResult = urlConnection.getResponseCode();   // Self explanatory
+
+            wr.close();
             if(HttpResult == HttpURLConnection.HTTP_OK)
                 return true;
             else
