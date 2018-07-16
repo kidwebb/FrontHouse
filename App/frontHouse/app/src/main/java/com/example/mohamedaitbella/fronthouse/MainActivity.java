@@ -20,6 +20,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
          JSONObject result;
 
          try {
-              result = apiCall.execute(url, "{login:\""+userName.getText().toString()+"\",password:\""+password.getText().toString()+"\"}").get();
+              result = apiCall.execute(url, "{login:\""+userName.getText().toString()+"\",password:\""+password.getText().toString()+"\"}").get().getJSONObject(0);
               Log.d("CHECK", "Result = " + result);
          }catch (Exception e){
               Log.d("Debug: API_Call", e.getMessage());
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
          if(userId > 0) {
               Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+              intent.putExtra("userId", userId);
               startActivity(intent);
          }
          else{
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-class APICall extends AsyncTask<String, String, JSONObject> {
+class APICall extends AsyncTask<String, String, JSONArray> {
 
     public APICall(){
 
@@ -142,7 +144,7 @@ class APICall extends AsyncTask<String, String, JSONObject> {
     }
 
     @Override       //https://stackoverflow.com/questions/2938502/sending-post-data-in-android
-    protected JSONObject doInBackground(String... params){
+    protected JSONArray doInBackground(String... params){
 
         String urlString = params[0];   // URL being called
         String data = params[1];    // Data to post
@@ -164,7 +166,7 @@ class APICall extends AsyncTask<String, String, JSONObject> {
             wr.write(data);
             wr.flush();
             //-------------------------------------------------------------------------------
-            JSONObject json = new JSONObject();
+            JSONArray json = new JSONArray();
             StringBuilder sb = new StringBuilder();
             int HttpResult = urlConnection.getResponseCode();   // Self explanatory
 
@@ -174,21 +176,21 @@ class APICall extends AsyncTask<String, String, JSONObject> {
                 BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "utf-8"));
                 String line = null;
                 while((line = br.readLine()) != null)   //Should run once for login
-                    //json = new JSONObject(line);
-                    sb.append(line + "\n");
+                    json.put(new JSONObject(line));
+                    //sb.append(line + "\n");
                 br.close();
             }
 
             Log.i("traffic", "here");
             // Returning what is wanted from executing of the AsyncTask
-            return new JSONObject(sb.toString());
+            return json;
         }catch (Exception e){
             Log.d("CHECK CALL", e.getMessage());
         }
 
         return null;
     }
-    protected void onPostExecute(JSONObject result){
+    protected void onPostExecute(JSONArray result){
         if(result != null)
             Log.d("MyDebug", result.toString());
         super.onPostExecute(result);
