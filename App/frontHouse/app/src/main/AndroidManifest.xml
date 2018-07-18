@@ -32,7 +32,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ShiftVeiw"></activity>
+        <activity android:name=".ShiftView" />
+        <activity android:name=".MyAvailability"></activity>
     </application>
 
 </manifest>

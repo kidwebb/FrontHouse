@@ -4,14 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class ShiftVeiw extends AppCompatActivity {
+public class ShiftView extends AppCompatActivity {
 
     TextView time, job, state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shiftVeiw);
+        setContentView(R.layout.shift_view);
 
         time = findViewById(R.id.Time);
         time.setText(getIntent().getStringExtra("Time"));
